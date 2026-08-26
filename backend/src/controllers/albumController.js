@@ -1,6 +1,19 @@
 import { prisma } from "../prismaClient.js";
 
 const REQUIRED_FIELDS = ["title", "artist", "releaseYear", "releaseMonth", "genre"];
+const AUTHOR_SELECT = { author: { select: { id: true, name: true } } };
+
+async function annotateFavorites(albums, userId) {
+  if (!userId) return albums;
+
+  const favorites = await prisma.favorite.findMany({
+    where: { userId, albumId: { in: albums.map((album) => album.id) } },
+    select: { albumId: true },
+  });
+
+  const favoritedIds = new Set(favorites.map((favorite) => favorite.albumId));
+  return albums.map((album) => ({ ...album, favorited: favoritedIds.has(album.id) }));
+}
 
 export async function listAlbums(req, res) {
   const { month, year } = req.query;
@@ -11,22 +24,25 @@ export async function listAlbums(req, res) {
 
   const albums = await prisma.album.findMany({
     where,
+    include: AUTHOR_SELECT,
     orderBy: [{ releaseYear: "asc" }, { releaseMonth: "asc" }],
   });
 
-  res.json(albums);
+  res.json(await annotateFavorites(albums, req.user?.id));
 }
 
 export async function getAlbum(req, res) {
   const album = await prisma.album.findUnique({
     where: { id: Number(req.params.id) },
+    include: AUTHOR_SELECT,
   });
 
   if (!album) {
     return res.status(404).json({ error: "Album nao encontrado" });
   }
 
-  res.json(album);
+  const [annotated] = await annotateFavorites([album], req.user?.id);
+  res.json(annotated);
 }
 
 export async function createAlbum(req, res) {
@@ -50,7 +66,9 @@ export async function createAlbum(req, res) {
       genre: data.genre,
       coverUrl: data.coverUrl || null,
       description: data.description || null,
+      authorId: req.user.id,
     },
+    include: AUTHOR_SELECT,
   });
 
   res.status(201).json(album);

@@ -4,29 +4,86 @@ import { curatedAlbums } from "./albums.js";
 
 const USER_AGENT = "AlbunsDoNascimento/1.0 ( github.com/MarcosPereira00 )";
 const MB_BASE = "https://musicbrainz.org/ws/2";
+const REQUEST_GAP_MS = 1100;
 
 function wait(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-async function searchReleaseGroup(title, artist) {
-  const query = `releasegroup:"${title}" AND artist:"${artist}"`;
-  const url = `${MB_BASE}/release-group/?query=${encodeURIComponent(query)}&fmt=json&limit=5`;
+let lastRequestAt = 0;
 
-  const res = await fetch(url, { headers: { "User-Agent": USER_AGENT } });
+async function throttle() {
+  const elapsed = Date.now() - lastRequestAt;
+  if (elapsed < REQUEST_GAP_MS) await wait(REQUEST_GAP_MS - elapsed);
+  lastRequestAt = Date.now();
+}
+
+async function fetchWithRetry(url, attempts = 4) {
+  for (let attempt = 1; attempt <= attempts; attempt++) {
+    await throttle();
+    const res = await fetch(url, { headers: { "User-Agent": USER_AGENT } });
+    if (res.ok) return res;
+    if (res.status !== 503 || attempt === attempts) return res;
+    await wait(3000 * attempt);
+  }
+}
+
+function normalizeTitle(str) {
+  return str
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim()
+    .split(" ")
+    .filter((word) => word.length > 1)
+    .join(" ");
+}
+
+const artistIdCache = new Map();
+
+async function findArtistId(name) {
+  if (artistIdCache.has(name)) return artistIdCache.get(name);
+
+  const url = `${MB_BASE}/artist/?query=${encodeURIComponent(`artist:"${name}"`)}&fmt=json&limit=1`;
+  const res = await fetchWithRetry(url);
+  const id = res.ok ? (await res.json()).artists?.[0]?.id || null : null;
+
+  artistIdCache.set(name, id);
+  return id;
+}
+
+async function findAlbumInDiscography(artistId, title) {
+  const url = `${MB_BASE}/release-group?artist=${artistId}&limit=100&fmt=json`;
+  const res = await fetchWithRetry(url);
   if (!res.ok) return null;
 
   const data = await res.json();
   const groups = data["release-groups"] || [];
-  if (groups.length === 0) return null;
+  const target = normalizeTitle(title);
 
-  const album = groups.find((g) => g["primary-type"] === "Album") || groups[0];
-  return album;
+  const matches = groups.filter((g) => normalizeTitle(g.title) === target);
+  if (matches.length === 0) return null;
+
+  const albumTyped = matches.filter((g) => g["primary-type"] === "Album");
+  const pool = albumTyped.length > 0 ? albumTyped : matches;
+
+  const withDate = pool.filter((g) => g["first-release-date"]);
+  if (withDate.length === 0) return pool[0];
+
+  return withDate.sort((a, b) => a["first-release-date"].localeCompare(b["first-release-date"]))[0];
+}
+
+async function findReleaseGroup(title, artist) {
+  const artistId = await findArtistId(artist);
+  if (!artistId) return null;
+
+  return findAlbumInDiscography(artistId, title);
 }
 
 async function fetchTags(mbid) {
   const url = `${MB_BASE}/release-group/${mbid}?inc=tags&fmt=json`;
-  const res = await fetch(url, { headers: { "User-Agent": USER_AGENT } });
+  const res = await fetchWithRetry(url);
   if (!res.ok) return [];
 
   const data = await res.json();
@@ -64,8 +121,7 @@ async function run() {
       continue;
     }
 
-    const releaseGroup = await searchReleaseGroup(entry.title, entry.artist);
-    await wait(1100);
+    const releaseGroup = await findReleaseGroup(entry.title, entry.artist);
 
     if (!releaseGroup) {
       console.log(`  nao encontrado: ${entry.title} - ${entry.artist}`);
@@ -79,7 +135,6 @@ async function run() {
     }
 
     const tags = await fetchTags(releaseGroup.id);
-    await wait(1100);
 
     await prisma.album.create({
       data: {
