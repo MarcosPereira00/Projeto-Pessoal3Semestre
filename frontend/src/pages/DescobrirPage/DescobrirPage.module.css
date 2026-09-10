@@ -1,0 +1,25 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.intro h2 {
+  color: var(--color-mustard);
+  margin: 0 0 0.5rem;
+  font-size: 1.4rem;
+}
+
+.intro p {
+  margin: 0;
+  color: var(--color-paper);
+  opacity: 0.85;
+  max-width: 34rem;
+}
+
+.resultLabel {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--color-mustard);
+  margin: 0;
+}

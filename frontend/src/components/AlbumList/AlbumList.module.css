@@ -1,0 +1,16 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+  gap: 1.2rem;
+}
+
+.message {
+  font-family: var(--font-mono);
+  color: var(--color-paper);
+  opacity: 0.8;
+}
+
+.messageError {
+  font-family: var(--font-mono);
+  color: var(--color-rust);
+}

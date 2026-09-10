@@ -1,0 +1,82 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  background: var(--color-bg-alt);
+  border: 1px solid var(--color-border);
+  border-radius: 1rem;
+  padding: 1.75rem;
+  max-width: 30rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  flex: 1;
+}
+
+.fieldRow {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.field label {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--color-mustard);
+}
+
+.field input,
+.field select,
+.field textarea {
+  padding: 0.65rem 0.8rem;
+  border-radius: 0.6rem;
+  border: 1px solid var(--color-border);
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-size: 0.9rem;
+  resize: vertical;
+}
+
+.button {
+  padding: 0.75rem 1.3rem;
+  border-radius: 0.6rem;
+  border: none;
+  background: var(--color-olive);
+  color: var(--color-ink);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.85rem;
+  transition: filter 0.2s ease;
+}
+
+.button:hover {
+  filter: brightness(1.1);
+}
+
+.button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.error {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--color-rust);
+  margin: 0;
+}
+
+.success {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: flex-start;
+  background: var(--color-bg-alt);
+  border: 1px solid var(--color-olive);
+  border-radius: 1rem;
+  padding: 1.75rem;
+  max-width: 30rem;
+  color: var(--color-paper);
+}

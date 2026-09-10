@@ -1,0 +1,49 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  background: var(--color-bg-alt);
+  border: 1px solid var(--color-border);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  max-width: 32rem;
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  color: var(--color-mustard);
+}
+
+.row {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.input {
+  flex: 1;
+  min-width: 10rem;
+  padding: 0.7rem 0.9rem;
+  border-radius: 0.6rem;
+  border: 1px solid var(--color-border);
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-size: 0.95rem;
+}
+
+.button {
+  padding: 0.7rem 1.3rem;
+  border-radius: 0.6rem;
+  border: none;
+  background: var(--color-rust);
+  color: var(--color-paper);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.85rem;
+  transition: filter 0.2s ease;
+}
+
+.button:hover {
+  filter: brightness(1.1);
+}
