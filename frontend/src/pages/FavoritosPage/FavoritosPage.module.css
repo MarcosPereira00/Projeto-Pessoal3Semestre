@@ -1,0 +1,11 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.intro h2 {
+  color: var(--color-mustard);
+  margin: 0;
+  font-size: 1.4rem;
+}

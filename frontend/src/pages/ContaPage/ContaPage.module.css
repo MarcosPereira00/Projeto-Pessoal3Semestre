@@ -1,0 +1,79 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.tabs {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.tab,
+.tabActive {
+  border: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--color-paper);
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-family: var(--font-mono);
+}
+
+.tabActive {
+  background: var(--color-mustard);
+  color: var(--color-ink);
+  border-color: var(--color-mustard);
+}
+
+.profile {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background: var(--color-bg-alt);
+  border: 1px solid var(--color-border);
+  border-radius: 1rem;
+  padding: 1.75rem;
+  max-width: 26rem;
+}
+
+.profile h2 {
+  margin: 0;
+  color: var(--color-mustard);
+  font-size: 1.3rem;
+}
+
+.details {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.4rem 1rem;
+  margin: 0;
+}
+
+.details dt {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--color-mustard);
+}
+
+.details dd {
+  margin: 0;
+  color: var(--color-paper);
+}
+
+.logoutButton {
+  align-self: flex-start;
+  padding: 0.6rem 1.1rem;
+  border-radius: 0.6rem;
+  border: 1px solid var(--color-rust);
+  background: transparent;
+  color: var(--color-rust);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.82rem;
+}
+
+.logoutButton:hover {
+  background: var(--color-rust);
+  color: var(--color-paper);
+}
