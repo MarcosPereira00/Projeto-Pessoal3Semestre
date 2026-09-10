@@ -1,3 +1,5 @@
+// Tela principal (exibicao). Recebe a data de nascimento pelo BirthdateForm,
+// pede a API os albuns daquele mes e mostra na AlbumList.
 import { useState } from "react";
 import { useAuth } from "../../context/AuthContext.jsx";
 import BirthdateForm from "../../components/BirthdateForm/BirthdateForm.jsx";
@@ -7,6 +9,7 @@ import styles from "./DescobrirPage.module.css";
 
 function DescobrirPage() {
   const { token } = useAuth();
+  // status controla o que a AlbumList mostra: idle / loading / success / error
   const [status, setStatus] = useState("idle");
   const [albums, setAlbums] = useState([]);
   const [error, setError] = useState("");
@@ -26,6 +29,7 @@ function DescobrirPage() {
     }
   }
 
+  // favorita/desfavorita e atualiza so aquele album na lista, sem refazer a busca
   async function handleToggleFavorite(albumId) {
     const result = await toggleFavorite(albumId, token);
     setAlbums((prev) =>

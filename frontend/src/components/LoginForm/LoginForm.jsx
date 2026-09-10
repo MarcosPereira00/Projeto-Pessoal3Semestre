@@ -1,3 +1,5 @@
+// Formulario de login (email + senha). O envio de fato acontece na ContaPage,
+// que chama o login() do AuthContext.
 import { useState } from "react";
 import styles from "./LoginForm.module.css";
 

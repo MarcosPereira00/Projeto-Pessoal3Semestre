@@ -1,3 +1,5 @@
+// Cabecalho com o menu. Cada botao chama onChangeView para trocar a pagina.
+// "Favoritos" so aparece logado; o ultimo botao vira "Ola, Nome" apos o login.
 import { useAuth } from "../../context/AuthContext.jsx";
 import styles from "./Header.module.css";
 

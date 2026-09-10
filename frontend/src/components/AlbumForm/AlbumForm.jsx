@@ -1,6 +1,9 @@
+// Formulario de cadastro de album. Mantem os campos num unico objeto `form`
+// (estado controlado) e chama onCreate no submit. Quem envia pra API e a CadastrarPage.
 import { useState } from "react";
 import styles from "./AlbumForm.module.css";
 
+// valores iniciais de cada campo do formulario
 const INITIAL_STATE = {
   title: "",
   artist: "",
@@ -19,6 +22,7 @@ const MONTHS = [
 function AlbumForm({ onCreate, status, error }) {
   const [form, setForm] = useState(INITIAL_STATE);
 
+  // um unico handler para todos os inputs: usa o name do campo pra atualizar a chave certa
   function handleChange(event) {
     const { name, value } = event.target;
     setForm((prev) => ({ ...prev, [name]: value }));

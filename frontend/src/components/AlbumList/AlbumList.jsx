@@ -1,3 +1,5 @@
+// Recebe o status da requisicao e decide o que mostrar: mensagem de espera,
+// erro, "nada encontrado" ou a grade de AlbumCard. Usado pela Descobrir e pela Favoritos.
 import AlbumCard from "../AlbumCard/AlbumCard.jsx";
 import styles from "./AlbumList.module.css";
 

@@ -1,3 +1,5 @@
+// Formulario de criar conta. Sao os 5 campos do recurso User: nome, email,
+// senha, data de nascimento e genero favorito.
 import { useState } from "react";
 import styles from "./SignupForm.module.css";
 

@@ -1,3 +1,7 @@
+// Script que popula o banco uma vez (rodar com `npm run seed`).
+// Para cada album da lista em albums.js, busca no MusicBrainz o artista,
+// acha o album na discografia dele e grava data de lancamento, genero e capa.
+// Assim a tela de consulta sempre tem dados reais vindos da API, nada chumbado.
 import "dotenv/config";
 import { prisma } from "../src/prismaClient.js";
 import { curatedAlbums } from "./albums.js";

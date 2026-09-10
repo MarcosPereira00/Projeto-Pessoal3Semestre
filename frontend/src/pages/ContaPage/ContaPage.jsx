@@ -1,3 +1,5 @@
+// Tela de conta. Deslogado: abas "Entrar" e "Criar conta" (LoginForm/SignupForm).
+// Logado: mostra os dados do usuario e o botao Sair.
 import { useState } from "react";
 import { useAuth } from "../../context/AuthContext.jsx";
 import LoginForm from "../../components/LoginForm/LoginForm.jsx";

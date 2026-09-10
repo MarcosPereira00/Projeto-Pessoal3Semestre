@@ -1,3 +1,6 @@
+// Modelo do banco. O Prisma le este arquivo e gera as tabelas (migrations)
+// e o client usado nos controllers. Banco: SQLite (arquivo dev.db).
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -7,6 +10,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// Album: o recurso principal. authorId aponta pra quem cadastrou (null nos que vieram do seed).
 model Album {
   id             Int        @id @default(autoincrement())
   title          String
@@ -22,6 +26,7 @@ model Album {
   favorites      Favorite[]
 }
 
+// User: conta de quem usa o site. Guarda so o hash da senha, nunca a senha em si.
 model User {
   id            Int        @id @default(autoincrement())
   name          String
@@ -34,6 +39,7 @@ model User {
   favorites     Favorite[]
 }
 
+// Favorite: liga um usuario a um album. O unique impede favoritar o mesmo album duas vezes.
 model Favorite {
   id        Int      @id @default(autoincrement())
   userId    Int

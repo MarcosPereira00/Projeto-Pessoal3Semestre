@@ -1,9 +1,14 @@
+// Camada unica que fala com o back-end. Todo componente que precisa de dados
+// chama uma funcao daqui em vez de usar fetch direto. Cada funcao devolve o
+// JSON pronto ou lanca um erro com a mensagem que veio da API.
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3333";
 
+// monta o header com o token quando o usuario esta logado
 function authHeaders(token) {
   return token ? { Authorization: `Bearer ${token}` } : {};
 }
 
+// transforma uma resposta de erro da API em Error com a mensagem certa
 async function parseError(res, fallback) {
   const body = await res.json().catch(() => ({}));
   throw new Error(body.error || fallback);

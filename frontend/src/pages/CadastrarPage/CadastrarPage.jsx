@@ -1,3 +1,5 @@
+// Tela de cadastro de album. Se o usuario nao estiver logado, mostra so um
+// aviso e um botao pro login. Logado, mostra o AlbumForm e envia pra API.
 import { useState } from "react";
 import { useAuth } from "../../context/AuthContext.jsx";
 import AlbumForm from "../../components/AlbumForm/AlbumForm.jsx";

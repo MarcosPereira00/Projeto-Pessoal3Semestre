@@ -1,9 +1,13 @@
+// Guarda o estado de login (usuario + token) num unico lugar e disponibiliza
+// para toda a arvore de componentes atraves do hook useAuth().
+// O token tambem fica no localStorage para a sessao sobreviver ao F5.
 import { createContext, useContext, useState } from "react";
 import { signup as signupRequest, login as loginRequest } from "../services/api.js";
 
 const AuthContext = createContext(null);
 const STORAGE_KEY = "trilha-de-nascimento:auth";
 
+// le o login salvo no localStorage quando a pagina abre
 function loadStoredAuth() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -42,6 +46,7 @@ export function AuthProvider({ children }) {
     localStorage.removeItem(STORAGE_KEY);
   }
 
+  // tudo isso fica acessivel em qualquer componente via useAuth()
   const value = {
     user: auth?.user || null,
     token: auth?.token || null,
@@ -54,6 +59,7 @@ export function AuthProvider({ children }) {
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
+// atalho para os componentes lerem o contexto: const { user, token } = useAuth()
 export function useAuth() {
   return useContext(AuthContext);
 }

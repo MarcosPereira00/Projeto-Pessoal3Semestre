@@ -1,3 +1,5 @@
+// Tela de favoritos. Busca a lista assim que abre (useEffect) e reaproveita
+// a mesma AlbumList da tela de descoberta.
 import { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext.jsx";
 import AlbumList from "../../components/AlbumList/AlbumList.jsx";
@@ -10,6 +12,7 @@ function FavoritosPage() {
   const [albums, setAlbums] = useState([]);
   const [error, setError] = useState("");
 
+  // roda uma vez quando a tela abre (e de novo se o token mudar)
   useEffect(() => {
     getFavorites(token)
       .then((result) => {
@@ -22,6 +25,7 @@ function FavoritosPage() {
       });
   }, [token]);
 
+  // aqui desfavoritar tira o album da lista na hora (essa tela e so de favoritos)
   async function handleToggleFavorite(albumId) {
     const result = await toggleFavorite(albumId, token);
     if (!result.favorited) {

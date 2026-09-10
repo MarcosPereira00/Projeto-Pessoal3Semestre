@@ -1,5 +1,7 @@
+// Handlers de favoritos. A tabela Favorite so guarda o par (userId, albumId).
 import { prisma } from "../prismaClient.js";
 
+// POST /api/favorites/toggle - se ja e favorito remove, se nao e adiciona
 export async function toggleFavorite(req, res) {
   const albumId = Number(req.body.albumId);
 
@@ -23,6 +25,7 @@ export async function toggleFavorite(req, res) {
   res.json({ favorited: true });
 }
 
+// GET /api/favorites - devolve os albuns favoritados pelo usuario (ja no formato de album)
 export async function listFavorites(req, res) {
   const favorites = await prisma.favorite.findMany({
     where: { userId: req.user.id },

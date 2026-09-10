@@ -1,3 +1,5 @@
+// Card de um album: capa, titulo, artista, mes/ano, genero e quem cadastrou.
+// A estrela (favoritar) so aparece quando o usuario esta logado.
 import { useState } from "react";
 import { useAuth } from "../../context/AuthContext.jsx";
 import styles from "./AlbumCard.module.css";
@@ -9,8 +11,8 @@ const MONTH_NAMES = [
 
 function AlbumCard({ album, onToggleFavorite }) {
   const { isAuthenticated } = useAuth();
-  const [imgFailed, setImgFailed] = useState(false);
-  const [toggling, setToggling] = useState(false);
+  const [imgFailed, setImgFailed] = useState(false); // se a capa nao carregar, mostra o disco desenhado
+  const [toggling, setToggling] = useState(false); // trava o botao enquanto a requisicao nao volta
 
   async function handleFavoriteClick() {
     if (!onToggleFavorite || toggling) return;

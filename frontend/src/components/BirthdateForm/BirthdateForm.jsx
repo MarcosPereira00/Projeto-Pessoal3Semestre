@@ -1,3 +1,5 @@
+// Campo de data de nascimento. No submit extrai so o mes (parte do meio do
+// "AAAA-MM-DD") e repassa pra pagina via onSearch.
 import { useState } from "react";
 import styles from "./BirthdateForm.module.css";
 
@@ -8,7 +10,7 @@ function BirthdateForm({ onSearch }) {
     event.preventDefault();
     if (!birthdate) return;
 
-    const month = Number(birthdate.split("-")[1]);
+    const month = Number(birthdate.split("-")[1]); // "2000-05-15" -> 5
     onSearch(month, birthdate);
   }
 
