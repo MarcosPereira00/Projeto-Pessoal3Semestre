@@ -1,0 +1,63 @@
+:root {
+  --color-bg: #201510;
+  --color-bg-alt: #2b1d14;
+  --color-paper: #f4e9d8;
+  --color-paper-alt: #ecdcc0;
+  --color-ink: #2b1d14;
+  --color-ink-soft: #5a4632;
+  --color-mustard: #e0973d;
+  --color-rust: #c1440e;
+  --color-olive: #6b8f71;
+  --color-border: #3e2c1f;
+
+  --font-display: "Bungee", cursive;
+  --font-mono: "Space Mono", monospace;
+  --font-body: "Poppins", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: radial-gradient(circle at top, var(--color-bg-alt), var(--color-bg));
+  color: var(--color-paper);
+  font-family: var(--font-body);
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+button {
+  font-family: var(--font-body);
+  cursor: pointer;
+}
+
+input,
+select,
+textarea {
+  font-family: var(--font-body);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
